@@ -3,7 +3,10 @@ var archive = require('../helpers/archive-helpers');
 var helpers = require('./http-helpers');
 var fs = require('fs');
 var _ = require('underscore');
+var fetch = require('../workers/htmlfetcher');
 // require more modules/folders here!
+
+fetch.fetch();
 
 var actions = {
   'GET': function(request, response) {
@@ -59,6 +62,8 @@ var actions = {
       //keep checking for site
     request.on('data', function(chunk) {
       var link = chunk.toString().slice(4);
+      console.log("CHUNK IS");
+      console.log(chunk.toString());
       archive.readListOfUrls(archive.isUrlInList.bind(null, link, exports.handleFound ,request, response));
     })
 

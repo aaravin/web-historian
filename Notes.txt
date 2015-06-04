@@ -1,0 +1,5 @@
+Notes:
+
+need to refactor request-handler.js
+//url bug in sites.txt
+cron jobs

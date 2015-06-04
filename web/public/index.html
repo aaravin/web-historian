@@ -8,15 +8,5 @@
   <form method="POST">
     <input type="input" name="url"></input>
   </form>
-  <script>
-    $('form').on('submit', function() {
-      $.ajax({
-        type: 'POST',
-        url: 'localhost:8080',
-        data: $(input).val(),
-        contentType: 'text/html'
-      });
-    })
-  </script>
 </body>
 </html>
