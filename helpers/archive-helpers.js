@@ -25,13 +25,24 @@ exports.initialize = function(pathsObj){
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
-exports.readListOfUrls = function(){
+//IsUrlInList("www.google.com")
+exports.readListOfUrls = function(callback){
+  fs.readFile(exports.paths['list'], function(err, data) {
+    var sites = data.toString().split('\n').slice(0);
+    callback(sites);
+  })
 };
 
-exports.isUrlInList = function(){
+exports.isUrlInList = function(site, callback, request, response, sites){
+  var found = _.contains(sites, site);
+  callback(request, response, found, site);
 };
 
-exports.addUrlToList = function(){
+exports.addUrlToList = function(site){
+  fs.appendFile(exports.paths['list'], site + '\n', function (err) {
+    if (err) throw err;
+    // console.log('The "data to append" was appended to file!');
+  });
 };
 
 exports.isURLArchived = function(){
