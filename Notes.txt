@@ -1,5 +1,12 @@
 Notes:
 
+crontab:
+
+*/1 * * * *  /Users/student/.nvm/v0.10.26/bin/node /Users/student/2015-05-web-historian/workers/htmlfetcher.js
+
+// crontab -e and paste above and save.
+
 need to refactor request-handler.js
+//fix bug when request same site twice or more before fetching it..
 //url bug in sites.txt
-cron jobs
+//cron jobs

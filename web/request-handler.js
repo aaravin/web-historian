@@ -3,10 +3,6 @@ var archive = require('../helpers/archive-helpers');
 var helpers = require('./http-helpers');
 var fs = require('fs');
 var _ = require('underscore');
-var fetch = require('../workers/htmlfetcher');
-// require more modules/folders here!
-
-fetch.fetch();
 
 var actions = {
   'GET': function(request, response) {
@@ -64,7 +60,7 @@ var actions = {
       var link = chunk.toString().slice(4);
       console.log("CHUNK IS");
       console.log(chunk.toString());
-      archive.readListOfUrls(archive.isUrlInList.bind(null, link, exports.handleFound ,request, response));
+      archive.isURLArchived(link, exports.handleFound.bind(null, request, response, false), exports.handleFound.bind(null, request, response, true));
     })
 
   },
@@ -74,6 +70,7 @@ var actions = {
 }
 
 exports.handleFound = function(request, response, found, site){
+  // archived.
   if(found){
     // redirect user to the site!
     response.writeHead(302, {
@@ -81,7 +78,16 @@ exports.handleFound = function(request, response, found, site){
     });
     response.end();
   }else{
-    archive.addUrlToList(site);
+    //not archived.
+    // check if in sites.txt
+    archive.readListOfUrls(function(sites){
+      archive.isUrlInList(site, function(found, site){
+        if(!found){
+          archive.addUrlToList(site);
+        }
+      }, sites)
+    });
+
     response.writeHead(302, {
         'Location': "loading.html"
     });

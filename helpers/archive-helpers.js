@@ -34,9 +34,9 @@ exports.readListOfUrls = function(callback){
   })
 };
 
-exports.isUrlInList = function(site, callback, request, response, sites){
+exports.isUrlInList = function(site, callback, sites){
   var found = _.contains(sites, site);
-  callback(request, response, found, site);
+  callback(found, site);
 };
 
 exports.addUrlToList = function(site){
@@ -46,10 +46,12 @@ exports.addUrlToList = function(site){
   });
 };
 
-exports.isURLArchived = function(url, callback){
+exports.isURLArchived = function(url, callbackF, callbackS){
   fs.readdir(exports.paths['archivedSites'], function(err, files){
-    if(!_.contains(files, url)){
-      callback(url);
+    if(callbackF && !_.contains(files, url)){
+      callbackF(url);
+    } else{
+      callbackS && callbackS(url);
     }
   });
 };

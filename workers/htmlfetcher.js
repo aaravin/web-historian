@@ -9,10 +9,11 @@ var fetch = function(){
     _.each(sites, function(site){
       // isURLArchived calls callback if site not archived
       archive.isURLArchived(site, function(site){
-        archive.downloadUrls(site);
+        archive.downloadUrls(decodeURIComponent(site));
       })
     });
   })
 }
 
-exports.fetch = fetch;
+fetch();
+
